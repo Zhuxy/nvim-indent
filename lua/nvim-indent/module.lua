@@ -44,7 +44,7 @@ M.select_indent = function(around, include_last)
     vim.cmd('+')
   end
 
-  if not include_last and string.match(vim.fn.getline('.'), blank_line_pattern) then
+  while not include_last and string.match(vim.fn.getline(vim.fn.line('.')), blank_line_pattern) do
     vim.cmd('-')
   end
 end

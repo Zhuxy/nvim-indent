@@ -26,15 +26,16 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 
   for _,mode in ipairs({ 'x', 'o' }) do
-    vim.api.nvim_set_keymap(mode, 'i' .. M.config.text_object_char, ':<c-u>lua require("nvim-indent").select_indent()<cr>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap(mode, 'a' .. M.config.text_object_char, ':<c-u>lua require("nvim-indent").select_indent(true)<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap(mode, 'i' .. M.config.text_object_char, ':<c-u>lua require("nvim-indent").select_indent(false, false)<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap(mode, 'a' .. M.config.text_object_char, ':<c-u>lua require("nvim-indent").select_indent(true, false)<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap(mode, 'i' .. string.upper(M.config.text_object_char), ':<c-u>lua require("nvim-indent").select_indent(false, true)<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap(mode, 'a' .. string.upper(M.config.text_object_char), ':<c-u>lua require("nvim-indent").select_indent(true, true)<cr>', { noremap = true, silent = true })
   end
 end
 
 -- this function can be called by require("nvim-indent")
-M.select_indent = function(around)
-  return module.select_indent(around, M.config.include_last)
+M.select_indent = function(around, include_last)
+  return module.select_indent(around, include_last)
 end
-
 
 return M
