@@ -10,7 +10,6 @@ local module = require("nvim-indent.module")
 ---@field include_last boolean whether to include the last line when "around" some indented lines
 local config = {
   text_object_char = 'i',
-  include_last = true,
 }
 
 ---@class MyModule

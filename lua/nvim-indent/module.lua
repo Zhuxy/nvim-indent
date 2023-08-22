@@ -5,11 +5,13 @@
 ---@class NvimIndent
 local M = {}
 
+
+local is_blank_line = function(line) return string.match(vim.fn.getline(line), '^%s*$') end
+
 M.select_indent = function(around, include_last)
   local start_indent = vim.fn.indent(vim.fn.line('.'))
-  local blank_line_pattern = '^%s*$'
 
-  if string.match(vim.fn.getline('.'), blank_line_pattern) then
+  if is_blank_line(vim.fn.line('.')) then
     return
   end
 
@@ -21,8 +23,7 @@ M.select_indent = function(around, include_last)
   end
 
   local prev_line = vim.fn.line('.') - 1
-  local prev_blank_line = function(line) return string.match(vim.fn.getline(line), blank_line_pattern) end
-  while prev_line > 0 and (prev_blank_line(prev_line) or vim.fn.indent(prev_line) >= start_indent) do
+  while prev_line > 0 and (is_blank_line(prev_line) or vim.fn.indent(prev_line) >= start_indent) do
     vim.cmd('-')
     prev_line = vim.fn.line('.') - 1
   end
@@ -30,21 +31,23 @@ M.select_indent = function(around, include_last)
     vim.cmd('-')
   end
 
-  vim.cmd('normal! 0V')
+  -- remenber the uppermost line's indent, the downmost line's indent should not be less than it
+  local uppermost_indent = vim.fn.indent(vim.fn.line('.'))
+
+  vim.cmd('normal! V')
 
   local next_line = vim.fn.line('.') + 1
-  local next_blank_line = function(line) return string.match(vim.fn.getline(line), blank_line_pattern) end
   local last_line = vim.fn.line('$')
-  while next_line <= last_line and (next_blank_line(next_line) or vim.fn.indent(next_line) >= start_indent) do
+  while next_line <= last_line and (is_blank_line(next_line) or vim.fn.indent(next_line) >= start_indent) do
     vim.cmd('+')
     next_line = vim.fn.line('.') + 1
   end
 
-  if around and include_last then
+  if around and include_last and vim.fn.indent(next_line) >= uppermost_indent then
     vim.cmd('+')
   end
 
-  while not include_last and string.match(vim.fn.getline(vim.fn.line('.')), blank_line_pattern) do
+  while not include_last and is_blank_line('.') do
     vim.cmd('-')
   end
 end
