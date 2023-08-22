@@ -15,13 +15,13 @@ Table of Contents                  *nvim-indent*
 
 `nvim-indent` is a plugin to help you select or operate with texts by indent level.
 
-The basic concept is to select neighboring lines of text base on the indent level under the cursor.
+The basic concept is to select neighboring lines of text base on the indent level under the cursor, make them a kind of |text-objects| for futher operation.
 
-When searching the lines, the *(i)side* operation means all the neighboring lines whose indent level is equal or lower than the line under the cursor.
+When searching the lines, the *(i)nside* operation means all the neighboring lines whose indent level is equal or lower than the line under the cursor.
 
 And the *(a)round* operation means all the neighboring lines whose indent level is equal or lower than the line under the cursor, plus a upmost line or a downmost line which has a lower indent level if existed.
 
-Including any empty line when searching.
+Can including or excluding any nearest empty line when searching.
 
 ==============================================================================
 2. Configuration                                   *nvim-indent-configuration*
@@ -47,7 +47,7 @@ Here is a function:
     🮛end
 <
 
-use `vii` to select function body (Thay are have the same indent level):
+use `vii` to select function body (Thay all have the same indent level):
 
 >
     🮛local function test()
@@ -57,7 +57,7 @@ use `vii` to select function body (Thay are have the same indent level):
     🮛end
 <
 
-use `vai` to select all function definition (exluding the upmost line with a less indent level, but not downmost one):
+use `vai` to select all function definition (inluding the upmost line with a less indent level, but not downmost one):
 
 >
     █local function test()
