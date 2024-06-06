@@ -12,13 +12,21 @@ And the *(a)round* operation means all the neighboring lines whose indent level 
 
 Including any empty line when searching.
 
+UPDATE:
+
+Now we can select content by Markdown title level.
+
+Using `vit` to select all lines under the nearest Markdown title, and use `vat` to select all lines under the Markdown title including title itself.
+
+Maybe this plugin could be renamed to nvim-selection.
+
 ## Config
 
 The fault keystroke for indent line is `i` and `I`. If you want to use another pair of character, you can set the config object:
 
 ```lua
 require("nvim-indent").setup({
-    text_object_char = 'l', -- now use `il` or `al` to select line
+    text_object_char = 'i', -- now use `ii` or `ai` to select line
 })
 ```
 
@@ -112,6 +120,20 @@ use `vai` to select List 1 and Sub lists (without the empty line):
 use `vaI` to select List 1 and Sub lists (including the empty line):
 
 ```markdown
+🮛# Header 1
+█- List 1
+█  - Sub list 1
+█  - Sub list 2
+█  - Sub list 3
+█
+🮛# Header 2
+```
+
+## Select by Markdown titles (maybe this plugin could be renamed to nvim-selection)
+
+use `vit` to select all lines under the nearest Markdown title:
+
+```Markdown
 🮛# Header 1
 █- List 1
 █  - Sub list 1
