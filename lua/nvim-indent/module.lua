@@ -103,7 +103,7 @@ M.select_under_title = function(include_title)
     while next_line <= last_line do
       line_str = vim.fn.getline(next_line)
       next_heading = string.match(line_str, regex)
-      if next_heading and heading == next_heading then
+      if next_heading and (heading == next_heading or #heading > #next_heading) then
         select_bottom = next_line - 1
         break
       end
